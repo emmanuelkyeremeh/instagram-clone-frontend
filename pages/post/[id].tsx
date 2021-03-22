@@ -23,6 +23,7 @@ import Typography from "@material-ui/core/Typography";
 import { POST_DELETE_FAIL } from "../../store/constants/PostConstant";
 import { createComment, getComments } from "../../store/actions/CommentActions";
 import { postImage } from "../../store/actions/ImageActions";
+import Image from "next/image";
 
 export async function getServerSideProps(context) {
   return {
@@ -199,7 +200,7 @@ const posts = () => {
               />
             </div>
             <div className="post-container-body">
-              <img src={newposts.image} alt="Post image" />
+              <Image src={`/${newposts.image}`} width="600px" height="600px" />
             </div>
             <div className="post-container-reaction">
               <div className="post-container-reaction-left">

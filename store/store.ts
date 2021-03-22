@@ -4,7 +4,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { persistStore } from "redux-persist";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { signupReducer, loginReducer } from "../store/reducers/userReducer";
+import {
+  signupReducer,
+  loginReducer,
+  updateUserReducer,
+  getUsersReducer,
+  getSingleUserReducer,
+} from "../store/reducers/userReducer";
 import {
   createPostReducer,
   deletePostReducer,
@@ -17,7 +23,7 @@ import {
   createCommentReducer,
   getCommentReducer,
 } from "./reducers/CommentReducers";
-import { ImageReducer } from "./reducers/ImageReducer";
+import { followDataReducer, followUserReducer } from "./reducers/FollowReducer";
 
 let userData = "";
 
@@ -44,8 +50,12 @@ const reducer = combineReducers({
   updatePost: updatePostReducer,
   createComment: createCommentReducer,
   getUserComments: getCommentReducer,
-  uploadImage: ImageReducer,
   findPostByUser: findPostByUserReducer,
+  updatedSingleUser: updateUserReducer,
+  getAllUsers: getUsersReducer,
+  getOneUser: getSingleUserReducer,
+  FollowUser: followUserReducer,
+  FollowData: followDataReducer,
 });
 
 let store;

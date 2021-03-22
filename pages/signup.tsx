@@ -11,6 +11,7 @@ const Registeration = () => {
   const [lastName, setlastName] = useState("");
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
+  const [avatar, setavatar] = useState("");
   const [password, setpassword] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
@@ -19,7 +20,14 @@ const Registeration = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await dispatch(signup(firstName, lastName, username, email, password));
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("username", username);
+    formData.append("avatar", avatar);
+    formData.append("email", email);
+    formData.append("password", password);
+    await dispatch(signup(formData));
 
     router.push("/");
   };
@@ -43,14 +51,7 @@ const Registeration = () => {
           ) : loading ? (
             <Error severity="info" error="" />
           ) : (
-            <Error
-              severity="error"
-              error={
-                username === "" || email === "" || password === ""
-                  ? "All fields are required"
-                  : "All fields are required"
-              }
-            />
+            ""
           )}
           <br />
           <input
@@ -72,6 +73,12 @@ const Registeration = () => {
             value={username}
             onChange={(e) => setusername(e.target.value)}
           />
+          <label htmlFor="avatar">Upload a profile picture</label>
+          <input
+            type="file"
+            name="avatar"
+            onChange={(e) => setavatar(e.target.files[0])}
+          />
           <input
             type="email"
             placeholder="email"
@@ -90,7 +97,7 @@ const Registeration = () => {
       <div className="signup-login">
         <p>
           Already have an Account?{" "}
-          <Link href="/Logins">
+          <Link href="/login">
             <a>Login</a>
           </Link>{" "}
         </p>

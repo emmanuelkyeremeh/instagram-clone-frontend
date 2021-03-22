@@ -7,6 +7,7 @@ import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import Typography from "@material-ui/core/Typography";
+import { useDispatch } from "react-redux";
 import Link from "next/link";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,6 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { usersignout } from "../store/actions/userActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +39,13 @@ const Nav = ({ handleOpen, display }) => {
     setOpen((prev) => placement !== newPlacement || !prev);
     setPlacement(newPlacement);
   };
+
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleLogOut = (e) => {
+    dispatch(usersignout());
+  };
   const userData = useSelector((state) => state.Login);
   const { userDataInsta } = userData;
   return (
@@ -120,7 +128,7 @@ const Nav = ({ handleOpen, display }) => {
                   >
                     profile
                   </p>
-                  <p>Log Out</p>
+                  <p onClick={handleLogOut}>Log Out</p>
                 </div>
               </Typography>
             </Paper>

@@ -8,6 +8,7 @@ import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutline
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getComments } from "../store/actions/CommentActions";
+import Image from "next/image";
 
 const Post = ({ id, img, caption, username }) => {
   const router = useRouter();
@@ -33,8 +34,7 @@ const Post = ({ id, img, caption, username }) => {
           <MoreHorizIcon />
         </div>
         <div className="post-container-body">
-          {/* <Image src={img} width="600px" height="600px" /> */}
-          <img src={img} alt="Post image" />
+          <Image src={`/${img}`} width="600px" height="600px" />
         </div>
         <div className="post-container-reaction">
           <div className="post-container-reaction-left">

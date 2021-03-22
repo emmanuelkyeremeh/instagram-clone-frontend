@@ -10,6 +10,7 @@ import { createPost } from "../store/actions/PostActions";
 import Error from "./error";
 import { getposts } from "../store/actions/PostActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Profiles from "./profile/profiles";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,10 +32,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const user = useSelector((state) => state.Login);
   const { userDataInsta } = user;
+
+  const ISSERVER = typeof window === "undefined";
+
+  if (!ISSERVER) {
+    if (!userDataInsta) {
+      window.location.assign("/login");
+    }
+  }
+
+  const _id = userDataInsta._id;
+
   const getmyposts = useSelector((state) => state.getPosts);
   const { loading: getPostsLoading, error: getPostsError, posts } = getmyposts;
 
-  const _id = userDataInsta._id;
   const username = userDataInsta.username;
   const post = useSelector((state) => state.createPost);
   const { loading, error } = post;
@@ -84,43 +95,40 @@ export default function Home() {
     location.reload();
   };
 
-  const ISSERVER = typeof window === "undefined";
-
-  if (!ISSERVER) {
-    if (!userDataInsta) {
-      window.location.assign("/accounts/login");
-    }
-  }
-
   return (
     <div>
       <Head>
         <title>Instagram 💖 </title>
       </Head>
       <Nav handleOpen={handleOpen} display={true} />
-      <div className="post-body">
-        {getPostsLoading ? (
-          <div className={classes.root}>
-            <CircularProgress />
-          </div>
-        ) : getPostsError ? (
-          <Error error={error} severity="error" />
-        ) : (
-          <div className="post-body">
-            {posts &&
-              posts
-                .reverse()
-                .map((post) => (
-                  <Post
-                    key={post._id}
-                    id={post._id}
-                    img={post.image}
-                    caption={post.caption}
-                    username={post.user_username}
-                  />
-                ))}
-          </div>
-        )}
+      <div className="container">
+        <div className="post-body">
+          {getPostsLoading ? (
+            <div className={classes.root}>
+              <CircularProgress />
+            </div>
+          ) : getPostsError ? (
+            <Error error={error} severity="error" />
+          ) : (
+            <div className="post-body">
+              {posts &&
+                posts
+                  .reverse()
+                  .map((post) => (
+                    <Post
+                      key={post._id}
+                      id={post._id}
+                      img={post.image}
+                      caption={post.caption}
+                      username={post.user_username}
+                    />
+                  ))}
+            </div>
+          )}
+        </div>
+        <div className="post-side">
+          <Profiles userid={_id} />
+        </div>
       </div>
       <Modal
         open={open}

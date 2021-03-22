@@ -81,6 +81,16 @@ a {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  flex: 1;
+}
+.container {
+  display: flex;
+}
+.post-side {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 1rem;
+  flex: 0.3;
 }
 .post-container {
   display: flex;
@@ -103,10 +113,6 @@ a {
 }
 .post-container-header-left p {
   margin-left: 10px;
-}
-.post-container-body img {
-  width: 600px;
-  height: 600px;
 }
 .post-container-reaction {
   padding: 10px;
@@ -273,7 +279,7 @@ a {
 }
 .profile-container {
   background-color: rgb(245, 245, 245);
-  /* height: 100vh; */
+  height: 100%;
 }
 .profile-info {
   display: flex;
@@ -300,8 +306,15 @@ a {
 .profile-name p {
   font-size: 2rem;
 }
-.profile-name button {
+.profile-name-button {
   margin-left: 1rem;
+  padding: 10px;
+  outline: 0;
+  border: 1px solid rgb(143, 143, 143);
+  border-radius: 5px;
+}
+.profile-name-button:hover {
+  background-color: rgb(218, 216, 216);
 }
 .profile-name-icon {
   margin-left: 1rem;
@@ -312,7 +325,7 @@ a {
 }
 .profile-activity {
   max-width: 900px;
-  margin-left: 10rem;
+  margin-left: 15%;
 }
 .post-title {
   display: flex;
@@ -323,12 +336,75 @@ a {
   margin-right: 3px;
 }
 .profile-posts {
-  max-width: 900px;
-  margin-left: 10rem;
+  max-width: 930px;
+  margin-left: 15%;
   display: flex;
   flex-wrap: wrap;
-  margin-top: -3rem;
+  /* margin-top: -3rem; */
+  padding: 0;
 }
 .post-hover-image {
-  object-fit: contain;
+  padding-right: 20px !important;
+  padding-bottom: 20px !important;
+  cursor: pointer !important;
+}
+.profile-list-container {
+  display: flex;
+  flex-direction: column;
+}
+.logged-in-user {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 2rem;
+}
+.logged-in-user-details {
+  margin-left: 10px;
+}
+.all-other-users-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+}
+.all-other-users-container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.all-other-users {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.all-other-user-details {
+  margin-left: 10px;
+}
+.all-other-users-follow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+}
+.single-user-avatar {
+  width: 70px !important;
+  height: 70px !important;
+}
+.logged-in-user-details-span-one {
+  font-weight: bold;
+}
+.logged-in-user-details-span-two {
+  font-size: 0.8rem;
+}
+.all-other-user-container-title {
+  color: gray;
+  font-size: 0.9rem;
+}
+.all-other-users-follow-button {
+  background: transparent;
+  border-radius: 25px;
+  border: none;
+  color: rgb(79, 127, 199);
+  cursor: pointer;
+  outline: 0;
 }
