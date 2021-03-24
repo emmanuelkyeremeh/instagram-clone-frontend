@@ -2,6 +2,9 @@ import {
   CREATE_COMMENT_FAIL,
   CREATE_COMMENT_REQUEST,
   CREATE_COMMENT_SUCCESS,
+  GET_ALL_COMMENTS_FAIL,
+  GET_ALL_COMMENTS_REQUEST,
+  GET_ALL_COMMENTS_SUCCESS,
   GET_COMMENT_FAIL,
   GET_COMMENT_REQUEST,
   GET_COMMENT_SUCCESS,
@@ -25,6 +28,18 @@ export const getCommentReducer = (state = {}, action) => {
   } else if (action.type === GET_COMMENT_SUCCESS) {
     return { loading: false, commentList: action.payload };
   } else if (action.type === GET_COMMENT_FAIL) {
+    return { loading: false, error: action.payload };
+  } else {
+    return state;
+  }
+};
+
+export const getAllCommentsReducer = (state = {}, action) => {
+  if (action.type === GET_ALL_COMMENTS_REQUEST) {
+    return { loading: true };
+  } else if (action.type === GET_ALL_COMMENTS_SUCCESS) {
+    return { loading: false, allComments: action.payload };
+  } else if (action.type === GET_ALL_COMMENTS_FAIL) {
     return { loading: false, error: action.payload };
   } else {
     return state;

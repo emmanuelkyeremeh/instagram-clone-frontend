@@ -29,6 +29,7 @@ a {
   height: 4rem;
   z-index: 1000;
   background: white;
+  width: 100%;
 }
 .navbar-logo,
 .navbar-search,
@@ -65,16 +66,27 @@ a {
   display: flex;
   flex-direction: column;
 }
-.nav-dropdown p {
+.my-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.my-profile p {
+  margin-left: 10px;
+}
+.nav-dropdown div {
   padding: 10px;
   cursor: pointer;
 }
+.avatar-not-shown {
+  display: none !important;
+}
 
-.nav-dropdown p:nth-child(2) {
+.nav-dropdown div:nth-child(2) {
   margin-top: -12px;
 }
-.nav-dropdown p:hover {
-  background-color: rgb(112, 110, 110);
+.nav-dropdown div:hover {
+  background-color: rgb(235, 235, 235);
 }
 .post-body {
   display: flex;
@@ -88,7 +100,6 @@ a {
 }
 .post-side {
   position: sticky;
-  position: -webkit-sticky;
   top: 1rem;
   flex: 0.3;
 }
@@ -203,12 +214,15 @@ a {
   display: flex;
   flex-direction: column;
 }
-.form input {
+.form input:not([type="file"]) {
   padding: 10px;
   background-color: rgb(250, 248, 248);
   border: 1px solid var(--border);
   outline-width: 0;
   margin-bottom: 0.5rem;
+}
+.form input[type="file"] {
+  padding: 10px;
 }
 .form button {
   display: block;
@@ -298,6 +312,9 @@ a {
   padding: 10px;
   margin-left: 3rem;
 }
+.profile-stats-section span {
+  font-weight: bolder;
+}
 .profile-name {
   display: flex;
   justify-content: center;
@@ -351,6 +368,8 @@ a {
 .profile-list-container {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 6rem;
 }
 .logged-in-user {
   display: flex;
@@ -407,4 +426,52 @@ a {
   color: rgb(79, 127, 199);
   cursor: pointer;
   outline: 0;
+}
+
+@media screen and (max-width: 1050px) {
+  .post-hover {
+    width: 190px !important;
+    height: 200px !important;
+  }
+  .post-hover-image {
+    width: 190px !important;
+    height: 200px !important;
+  }
+  .login-form-container {
+    flex-direction: column;
+    margin-left: 0 !important;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .post-side {
+    display: none;
+  }
+  .login-image {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 800px) {
+  .navbar-search {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .post-container {
+    width: 400px !important;
+  }
+  .post-container-image {
+    width: 400px !important;
+  }
+}
+@media screen and (max-width: 600px) {
+  .profile-avatar {
+    width: 80px !important;
+    height: 80px !important;
+    margin-left: 1rem;
+  }
+  .post-hover {
+    width: 130px !important;
+    height: 140px !important;
+  }
 }

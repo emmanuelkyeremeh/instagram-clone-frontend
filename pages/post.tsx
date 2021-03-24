@@ -6,35 +6,67 @@ import { useRouter } from "next/router";
 import NearMeOutlinedIcon from "@material-ui/icons/NearMeOutlined";
 import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getComments } from "../store/actions/CommentActions";
+import { useEffect, useState } from "react";
+import { getAllComments } from "../store/actions/CommentActions";
+import { getUsers } from "../store/actions/userActions";
 import Image from "next/image";
 
-const Post = ({ id, img, caption, username }) => {
+const Post = ({ id, img, caption, username, userid }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  let commentList = 0;
+
   const routerHandler = () => {
     router.push(`/post/${id}`);
   };
   useEffect(() => {
-    dispatch(getComments(id));
+    dispatch(getAllComments());
+  }, []);
+  useEffect(() => {
+    dispatch(getUsers());
   }, []);
 
-  const getUserComment = useSelector((state) => state.getUserComments);
-  const { commentList } = getUserComment;
+  const getEveryUser = useSelector((state) => state.getAllUsers);
+  const { Users } = getEveryUser;
+
+  const everyComment = useSelector((state) => state.AllComments);
+  const { allComments } = everyComment;
+
+  allComments &&
+    allComments.forEach((comment) => {
+      if (comment.postid === id) {
+        commentList++;
+      }
+    });
 
   return (
     <div className="post-container">
       <div onClick={routerHandler}>
         <div className="post-container-header">
           <div className="post-container-header-left">
-            <Avatar className="post-container-header-avatar" />
+            {Users &&
+              Users.map((allusers) => (
+                <Avatar
+                  src={userid === allusers._id ? `/${allusers.avatar}` : ""}
+                  className={
+                    userid !== allusers._id
+                      ? "avatar-not-shown"
+                      : "post-container-header-avatar"
+                  }
+                />
+              ))}
             <p>{username}</p>
           </div>
           <MoreHorizIcon />
         </div>
         <div className="post-container-body">
-          <Image src={`/${img}`} width="600px" height="600px" />
+          <Image
+            className="post-container-image"
+            src={`/${img}`}
+            width="600px"
+            height="600px"
+          />
         </div>
         <div className="post-container-reaction">
           <div className="post-container-reaction-left">
@@ -43,9 +75,7 @@ const Post = ({ id, img, caption, username }) => {
             </div>
             <div className="reaction-icon-div">
               <ModeCommentOutlinedIcon />
-              <p className="reaction-icon-div-p">
-                {commentList ? commentList.length : 0}
-              </p>
+              <p className="reaction-icon-div-p">{commentList}</p>
             </div>
             <div className="reaction-icon">
               <NearMeOutlinedIcon />

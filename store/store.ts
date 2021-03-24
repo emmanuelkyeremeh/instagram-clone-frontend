@@ -21,9 +21,15 @@ import {
 } from "./reducers/PostReducer";
 import {
   createCommentReducer,
+  getAllCommentsReducer,
   getCommentReducer,
 } from "./reducers/CommentReducers";
-import { followDataReducer, followUserReducer } from "./reducers/FollowReducer";
+import {
+  followDataReducer,
+  followersReducer,
+  followingReducer,
+  followUserReducer,
+} from "./reducers/FollowReducer";
 
 let userData = "";
 
@@ -56,6 +62,9 @@ const reducer = combineReducers({
   getOneUser: getSingleUserReducer,
   FollowUser: followUserReducer,
   FollowData: followDataReducer,
+  FollowersReducer: followersReducer,
+  FollowingReducer: followingReducer,
+  AllComments: getAllCommentsReducer,
 });
 
 let store;

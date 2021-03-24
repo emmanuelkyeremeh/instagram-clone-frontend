@@ -3,6 +3,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import ExploreOutlinedIcon from "@material-ui/icons/ExploreOutlined";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
@@ -109,26 +110,30 @@ const Nav = ({ handleOpen, display }) => {
       <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
-            <Paper style={{ borderRadius: "20px" }}>
+            <Paper style={{ borderRadius: "5px" }}>
               <Typography
                 className={classes.typography}
                 style={{
-                  color: "white",
-                  backgroundColor: "rgb(66, 65, 65)",
-                  borderRadius: "20px",
+                  color: "black",
+                  backgroundColor: "white",
+                  borderRadius: "5px",
                   padding: 0,
                   margin: 0,
                 }}
               >
                 <div className="nav-dropdown">
-                  <p
+                  <div
+                    className="my-profile"
                     onClick={(e) =>
                       router.push(`/profile/${userDataInsta.username}`)
                     }
                   >
-                    profile
-                  </p>
-                  <p onClick={handleLogOut}>Log Out</p>
+                    <AccountCircleOutlinedIcon />
+                    <p>profile</p>
+                  </div>
+                  <div className="logout" onClick={handleLogOut}>
+                    <p>Log Out</p>
+                  </div>
                 </div>
               </Typography>
             </Paper>

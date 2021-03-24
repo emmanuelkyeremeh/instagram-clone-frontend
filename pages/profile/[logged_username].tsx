@@ -11,6 +11,7 @@ import Error from "../error";
 import { useRouter } from "next/router";
 import { makeStyles } from "@material-ui/core/styles";
 import { getSingleUser, UpdateUser } from "../../store/actions/userActions";
+import { getfollowers, getfollowing } from "../../store/actions/FollowActions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,6 +74,11 @@ const profile = () => {
   const userUpdate = useSelector((state) => state.updatedSingleUser);
   const { loading: userUpdateLoading, error: userUpdateError } = userUpdate;
 
+  const grabfollowers = useSelector((state) => state.FollowersReducer);
+  const { Followers } = grabfollowers;
+  const grabfollowing = useSelector((state) => state.FollowingReducer);
+  const { Following } = grabfollowing;
+
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -96,6 +102,13 @@ const profile = () => {
 
   useEffect(() => {
     dispatch(getSingleUser(userId));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getfollowers(userId));
+  }, []);
+  useEffect(() => {
+    dispatch(getfollowing(userId));
   }, []);
 
   const ISSERVER = typeof window === "undefined";
@@ -129,7 +142,13 @@ const profile = () => {
             <SettingsOutlinedIcon className="profile-name-icon" />
           </div>
           <div className="profile-stats-section">
-            1 post 73 followers 88 following
+            <span>{PostData && PostData.length} </span>posts{" "}
+            <span>{Followers && Followers.length} </span>
+            followers{" "}
+            <span>
+              {Following && Following.length > 0 ? Following.length : "0"}
+            </span>{" "}
+            following
           </div>
           <div className="profile-bio">
             <p>Emmanuel Kepler</p>

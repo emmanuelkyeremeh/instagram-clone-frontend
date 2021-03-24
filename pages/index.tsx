@@ -118,6 +118,7 @@ export default function Home() {
                     <Post
                       key={post._id}
                       id={post._id}
+                      userid={post.user}
                       img={post.image}
                       caption={post.caption}
                       username={post.user_username}
