@@ -5,17 +5,21 @@ import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
 import { useRouter } from "next/router";
 import NearMeOutlinedIcon from "@material-ui/icons/NearMeOutlined";
 import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutlined";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllComments } from "../store/actions/CommentActions";
 import { getUsers } from "../store/actions/userActions";
 import Image from "next/image";
+import { getAllLikes, likePost } from "../store/actions/LikeActions";
 
 const Post = ({ id, img, caption, username, userid }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   let commentList = 0;
+  let likeList = 0;
+  let isLiked = 0;
 
   const routerHandler = () => {
     router.push(`/post/${id}`);
@@ -26,9 +30,19 @@ const Post = ({ id, img, caption, username, userid }) => {
   useEffect(() => {
     dispatch(getUsers());
   }, []);
+  useEffect(() => {
+    dispatch(getAllLikes());
+  }, []);
+
+  const LikeHandler = async (e) => {
+    await dispatch(likePost(userid, id));
+    location.reload();
+  };
 
   const getEveryUser = useSelector((state) => state.getAllUsers);
   const { Users } = getEveryUser;
+  const getEveryLike = useSelector((state) => state.GetAllLikes);
+  const { AllLikes } = getEveryLike;
 
   const everyComment = useSelector((state) => state.AllComments);
   const { allComments } = everyComment;
@@ -39,12 +53,24 @@ const Post = ({ id, img, caption, username, userid }) => {
         commentList++;
       }
     });
+  AllLikes &&
+    AllLikes.forEach((like) => {
+      if (like.postid === id) {
+        likeList++;
+      }
+    });
+  AllLikes &&
+    AllLikes.forEach((like) => {
+      if (like.userid === userid && like.postid === id) {
+        isLiked++;
+      }
+    });
 
   return (
     <div className="post-container">
-      <div onClick={routerHandler}>
+      <div>
         <div className="post-container-header">
-          <div className="post-container-header-left">
+          <div className="post-container-header-left" onClick={routerHandler}>
             {Users &&
               Users.map((allusers) => (
                 <Avatar
@@ -60,7 +86,7 @@ const Post = ({ id, img, caption, username, userid }) => {
           </div>
           <MoreHorizIcon />
         </div>
-        <div className="post-container-body">
+        <div onClick={routerHandler} className="post-container-body">
           <Image
             className="post-container-image"
             src={`/${img}`}
@@ -70,14 +96,23 @@ const Post = ({ id, img, caption, username, userid }) => {
         </div>
         <div className="post-container-reaction">
           <div className="post-container-reaction-left">
-            <div className="reaction-icon">
-              <FavoriteBorderIcon />
-            </div>
-            <div className="reaction-icon-div">
+            {isLiked > 0 ? (
+              <div className="reaction-icon-div">
+                <FavoriteIcon style={{ color: "red" }} />
+                <p className="reaction-icon-div-p">{likeList}</p>
+              </div>
+            ) : (
+              <div className="reaction-icon-div" onClick={LikeHandler}>
+                <FavoriteBorderIcon />
+                <p className="reaction-icon-div-p">{likeList}</p>
+              </div>
+            )}
+
+            <div className="reaction-icon-div" onClick={routerHandler}>
               <ModeCommentOutlinedIcon />
               <p className="reaction-icon-div-p">{commentList}</p>
             </div>
-            <div className="reaction-icon">
+            <div className="reaction-icon" onClick={routerHandler}>
               <NearMeOutlinedIcon />
             </div>
           </div>
@@ -90,7 +125,7 @@ const Post = ({ id, img, caption, username, userid }) => {
           {caption}
         </div>
         <div className="post-container-comment"></div>
-        <form className="post-container-input">
+        <form className="post-container-input" onClick={routerHandler}>
           <input type="text" placeholder="Add a comment" />
           <button className="post-container-input-submit" type="submit">
             Post

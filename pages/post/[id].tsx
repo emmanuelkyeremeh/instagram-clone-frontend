@@ -4,6 +4,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
 import NearMeOutlinedIcon from "@material-ui/icons/NearMeOutlined";
 import BookmarkBorderOutlinedIcon from "@material-ui/icons/BookmarkBorderOutlined";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,8 +23,12 @@ import Popper from "@material-ui/core/Popper";
 import Typography from "@material-ui/core/Typography";
 import { POST_DELETE_FAIL } from "../../store/constants/PostConstant";
 import { createComment, getComments } from "../../store/actions/CommentActions";
-import { postImage } from "../../store/actions/ImageActions";
 import Image from "next/image";
+import {
+  getAllLikes,
+  getSingleLike,
+  likePost,
+} from "../../store/actions/LikeActions";
 
 export async function getServerSideProps(context) {
   return {
@@ -73,12 +78,24 @@ const posts = () => {
 
   const dispatch = useDispatch();
 
+  const getUserId = useSelector((state) => state.Login);
+  const { userDataInsta } = getUserId;
+  const userid = userDataInsta._id;
+
   useEffect(() => {
     dispatch(findSinglePost(postid));
   }, []);
 
   useEffect(() => {
     dispatch(getComments(postid));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getSingleLike(userid, postid));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllLikes());
   }, []);
 
   const rand = () => {
@@ -141,20 +158,17 @@ const posts = () => {
     success: updatePostSuccess,
   } = updatePosts;
 
-  const getUserId = useSelector((state) => state.Login);
-  const { userDataInsta } = getUserId;
-
   const getUserComment = useSelector((state) => state.getUserComments);
   const { commentList } = getUserComment;
 
+  const findAllLikes = useSelector((state) => state.GetAllLikes);
+  const { AllLikes } = findAllLikes;
+
+  const FindSingleLike = useSelector((state) => state.GetSingleLike);
+  const { SingleLike } = FindSingleLike;
+
   const getOnePost = useSelector((state) => state.getSinglePost);
   const { loading, error, newposts } = getOnePost;
-
-  // const commentstatus = useSelector((state) => state.createComment);
-  // const {
-  //   loading: createCommentLoading,
-  //   error: createCommentError,
-  // } = commentstatus;
 
   const currentDate = new Date().toLocaleString();
 
@@ -163,6 +177,26 @@ const posts = () => {
     await dispatch(createComment(postid, userComment, comment, currentDate));
     location.reload();
   };
+  const LikeHandler = async (e) => {
+    await dispatch(likePost(userid, postid));
+    location.reload();
+  };
+
+  let numberofLikes = 0;
+  let isLiked = 0;
+
+  AllLikes &&
+    AllLikes.forEach((like) => {
+      if (like.postid === postid) {
+        numberofLikes++;
+      }
+    });
+  AllLikes &&
+    AllLikes.forEach((like) => {
+      if (like.postid === postid && like.userid === userid) {
+        isLiked++;
+      }
+    });
 
   return (
     <div>
@@ -176,13 +210,6 @@ const posts = () => {
         <Error severity="error" error={error} />
       ) : (
         <div className="post-id-container">
-          {/* {createCommentLoading ? (
-            <Error severity="info" error="" />
-          ) : createCommentError ? (
-            <Error severity="error" error={error} />
-          ) : (
-            ""
-          )} */}
           {deleteloading && <Error severity="info" error="" />}
           {success && (
             <Error severity="success" error="Post deleted successfully!" />
@@ -204,9 +231,18 @@ const posts = () => {
             </div>
             <div className="post-container-reaction">
               <div className="post-container-reaction-left">
-                <div className="reaction-icon">
-                  <FavoriteBorderIcon />
-                </div>
+                {isLiked && isLiked > 0 ? (
+                  <div className="reaction-icon-div">
+                    <FavoriteIcon style={{ color: "red" }} />
+                    <p className="reaction-icon-div-p">{numberofLikes}</p>
+                  </div>
+                ) : (
+                  <div className="reaction-icon-div" onClick={LikeHandler}>
+                    <FavoriteBorderIcon />
+                    <p className="reaction-icon-div-p">{numberofLikes}</p>
+                  </div>
+                )}
+
                 <div className="reaction-icon-div">
                   <ModeCommentOutlinedIcon />
                   <p className="reaction-icon-div-p">
