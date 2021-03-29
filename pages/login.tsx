@@ -16,7 +16,6 @@ const Login = () => {
   const { loading, error } = loginDetails;
 
   const submitHandler = async (e) => {
-    //code goes here
     e.preventDefault();
     await dispatch(login(username, email, password));
 
