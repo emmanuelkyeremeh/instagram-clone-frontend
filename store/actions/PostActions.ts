@@ -31,7 +31,6 @@ export const createPost = (formData) => async (dispatch) => {
         "content-type": "multipart/form-data",
       },
     });
-    console.log(formData);
     dispatch({ type: CREATE_POST_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({

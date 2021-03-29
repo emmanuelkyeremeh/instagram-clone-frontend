@@ -88,9 +88,8 @@ const Nav = ({ handleOpen, display }) => {
           </IconButton>
         </Tooltip>
         <Tooltip title="Me">
-          <IconButton>
+          <IconButton onClick={handleClick("bottom")}>
             <AccountCircleRoundedIcon
-              onClick={handleClick("bottom")}
               style={{ color: "black" }}
               className="navbar-icon"
             />

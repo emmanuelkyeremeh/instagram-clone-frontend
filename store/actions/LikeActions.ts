@@ -3,9 +3,6 @@ import {
   GET_ALL_LIKES_FAIL,
   GET_ALL_LIKES_REQUEST,
   GET_ALL_LIKES_SUCCESS,
-  GET_SINGLE_LIKE_FAIL,
-  GET_SINGLE_LIKE_REQUEST,
-  GET_SINGLE_LIKE_SUCCESS,
   LIKE_POST_FAIL,
   LIKE_POST_REQUEST,
   LIKE_POST_SUCCESS,
@@ -46,20 +43,3 @@ export const getAllLikes = () => async (dispatch) => {
   }
 };
 
-export const getSingleLike = (userid, postid) => async (dispatch) => {
-  dispatch({ type: GET_SINGLE_LIKE_REQUEST });
-  try {
-    const res = await axios.get(
-      `http://localhost:8080/api/like/${userid}/${postid}`
-    );
-    dispatch({ type: GET_SINGLE_LIKE_SUCCESS, payload: res.data });
-  } catch (error) {
-    dispatch({
-      type: GET_SINGLE_LIKE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};

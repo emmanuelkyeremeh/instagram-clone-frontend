@@ -2,9 +2,6 @@ import {
   GET_ALL_LIKES_FAIL,
   GET_ALL_LIKES_REQUEST,
   GET_ALL_LIKES_SUCCESS,
-  GET_SINGLE_LIKE_FAIL,
-  GET_SINGLE_LIKE_REQUEST,
-  GET_SINGLE_LIKE_SUCCESS,
   LIKE_POST_FAIL,
   LIKE_POST_REQUEST,
   LIKE_POST_SUCCESS,
@@ -34,14 +31,4 @@ export const getAllLikesReducer = (state = {}, action) => {
   }
 };
 
-export const getSingleLikeReducer = (state = {}, action) => {
-  if (action.type === GET_SINGLE_LIKE_REQUEST) {
-    return { loading: true };
-  } else if (action.type === GET_SINGLE_LIKE_SUCCESS) {
-    return { loading: false, SingleLike: action.payload };
-  } else if (action.type === GET_SINGLE_LIKE_FAIL) {
-    return { loading: false, error: action.payload };
-  } else {
-    return state;
-  }
-};
+

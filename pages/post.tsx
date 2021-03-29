@@ -70,16 +70,22 @@ const Post = ({ id, img, caption, username, userid }) => {
     <div className="post-container">
       <div>
         <div className="post-container-header">
-          <div className="post-container-header-left" onClick={routerHandler}>
+          <div className="post-container-header-left">
             {Users &&
               Users.map((allusers) => (
                 <Avatar
+                  onClick={() =>
+                    userid === allusers._id
+                      ? router.push(`/profile/${allusers.username}`)
+                      : router.push(`/user/${allusers._id}`)
+                  }
                   src={userid === allusers._id ? `/${allusers.avatar}` : ""}
                   className={
                     userid !== allusers._id
                       ? "avatar-not-shown"
                       : "post-container-header-avatar"
                   }
+                  style={{ cursor: "pointer" }}
                 />
               ))}
             <p>{username}</p>

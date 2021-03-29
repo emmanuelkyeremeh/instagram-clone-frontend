@@ -98,7 +98,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Instagram 💖 </title>
+        <title>Instagram</title>
       </Head>
       <Nav handleOpen={handleOpen} display={true} />
       <div className="container">

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,9 +15,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Other_users = ({ display, follower, followed, username, avatar }) => {
+const Other_users = ({ id, display, follower, followed, username, avatar }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   let isFollowing = 0;
 
@@ -31,6 +33,10 @@ const Other_users = ({ display, follower, followed, username, avatar }) => {
   const fData = useSelector((state) => state.FollowData);
   const { loading, error, followData } = fData;
 
+  const routerHandler = async (e) => {
+    await router.push(`/user/${id}`);
+  };
+
   followData &&
     followData.forEach((follow) => {
       if (
@@ -43,8 +49,8 @@ const Other_users = ({ display, follower, followed, username, avatar }) => {
 
   return (
     <div className="all-other-users-container2" style={{ display: display }}>
-      <div className="all-other-users">
-        <Avatar src={`/${avatar}`} />
+      <div className="all-other-users" onClick={routerHandler}>
+        <Avatar src={`/${avatar}`} style={{ cursor: "pointer" }} />
         <div className="all-other-user-details">
           <p>{username}</p>
         </div>

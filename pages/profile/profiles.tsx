@@ -3,9 +3,12 @@ import { Avatar } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleUser, getUsers } from "../../store/actions/userActions";
 import OtherUsers from "./other_users";
+import { useRouter } from "next/router";
 
 const profiles = ({ userid }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   useEffect(() => {
     dispatch(getSingleUser(userid));
   }, []);
@@ -20,10 +23,14 @@ const profiles = ({ userid }) => {
   const allUsers = useSelector((state) => state.getAllUsers);
   const { Users } = allUsers;
 
+  const routerHandler = async (e) => {
+    await router.push(`/profile/${SingleUser._id}`);
+  };
+
   return (
     <div className="profile-list-container">
       <div className="logged-in-user-container">
-        <div className="logged-in-user">
+        <div className="logged-in-user" onClick={routerHandler}>
           <Avatar
             className="single-user-avatar"
             alt="profile-image"
@@ -50,6 +57,7 @@ const profiles = ({ userid }) => {
           Users.map((user) => (
             <OtherUsers
               key={user._id}
+              id={user && user._id}
               display={user._id === userid ? "none" : ""}
               follower={SingleUser && SingleUser._id}
               followed={user && user._id}

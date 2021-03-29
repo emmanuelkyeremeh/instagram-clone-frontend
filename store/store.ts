@@ -32,7 +32,6 @@ import {
 } from "./reducers/FollowReducer";
 import {
   getAllLikesReducer,
-  getSingleLikeReducer,
   likePostReducer,
 } from "./reducers/LikeReducers";
 
@@ -72,7 +71,6 @@ const reducer = combineReducers({
   AllComments: getAllCommentsReducer,
   LikePost: likePostReducer,
   GetAllLikes: getAllLikesReducer,
-  GetSingleLike: getSingleLikeReducer,
 });
 
 let store;

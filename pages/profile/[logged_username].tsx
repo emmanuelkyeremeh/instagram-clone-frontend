@@ -25,6 +25,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const profile = () => {
+  const userData = useSelector((state) => state.Login);
+  const { userDataInsta } = userData;
+  const userId = userDataInsta._id;
+
+  useEffect(() => {
+    dispatch(findPostByUser(userDataInsta._id));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getSingleUser(userId));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getfollowers(userId));
+  }, []);
+  useEffect(() => {
+    dispatch(getfollowing(userId));
+  }, []);
   const classes = useStyles();
   const rand = () => {
     return Math.round(Math.random() * 20) - 10;
@@ -61,9 +79,6 @@ const profile = () => {
   const handleOpen = () => {
     //boilerplate function for props and error removal!
   };
-  const userData = useSelector((state) => state.Login);
-  const { userDataInsta } = userData;
-  const userId = userDataInsta._id;
 
   const UpdatedUserData = useSelector((state) => state.getOneUser);
   const { SingleUser } = UpdatedUserData;
@@ -96,20 +111,6 @@ const profile = () => {
     await dispatch(UpdateUser(userDataInsta._id, formData));
     location.reload();
   };
-  useEffect(() => {
-    dispatch(findPostByUser(userDataInsta._id));
-  }, []);
-
-  useEffect(() => {
-    dispatch(getSingleUser(userId));
-  }, []);
-
-  useEffect(() => {
-    dispatch(getfollowers(userId));
-  }, []);
-  useEffect(() => {
-    dispatch(getfollowing(userId));
-  }, []);
 
   const ISSERVER = typeof window === "undefined";
 
@@ -122,7 +123,10 @@ const profile = () => {
   return (
     <div className="profile-container">
       <Head>
-        <title>Instagram User</title>
+        <title>
+          {SingleUser && SingleUser.firstName}{" "}
+          {SingleUser && SingleUser.lastName}: Instagram Profile
+        </title>
       </Head>
       <Nav handleOpen={handleOpen} display={false} />
       <div className="profile-info">
@@ -135,7 +139,7 @@ const profile = () => {
         </div>
         <div className="profile-stats">
           <div className="profile-name">
-            <p>aning_49</p>
+            <p>{SingleUser && SingleUser.username}</p>
             <button onClick={handleOpened} className="profile-name-button">
               Edit Profile
             </button>
@@ -151,7 +155,10 @@ const profile = () => {
             following
           </div>
           <div className="profile-bio">
-            <p>Emmanuel Kepler</p>
+            <p>
+              {SingleUser && SingleUser.firstName}{" "}
+              {SingleUser && SingleUser.lastName}
+            </p>
             <p>{SingleUser && SingleUser.bio}</p>
           </div>
         </div>

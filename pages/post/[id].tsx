@@ -24,11 +24,7 @@ import Typography from "@material-ui/core/Typography";
 import { POST_DELETE_FAIL } from "../../store/constants/PostConstant";
 import { createComment, getComments } from "../../store/actions/CommentActions";
 import Image from "next/image";
-import {
-  getAllLikes,
-  getSingleLike,
-  likePost,
-} from "../../store/actions/LikeActions";
+import { getAllLikes, likePost } from "../../store/actions/LikeActions";
 
 export async function getServerSideProps(context) {
   return {
@@ -88,10 +84,6 @@ const posts = () => {
 
   useEffect(() => {
     dispatch(getComments(postid));
-  }, []);
-
-  useEffect(() => {
-    dispatch(getSingleLike(userid, postid));
   }, []);
 
   useEffect(() => {
@@ -164,9 +156,6 @@ const posts = () => {
   const findAllLikes = useSelector((state) => state.GetAllLikes);
   const { AllLikes } = findAllLikes;
 
-  const FindSingleLike = useSelector((state) => state.GetSingleLike);
-  const { SingleLike } = FindSingleLike;
-
   const getOnePost = useSelector((state) => state.getSinglePost);
   const { loading, error, newposts } = getOnePost;
 
@@ -201,7 +190,7 @@ const posts = () => {
   return (
     <div>
       <Head>
-        <title>Post from Instagram</title>
+        <title>{newposts && newposts.user_username}: Post on Instagram</title>
       </Head>
       <Nav handleOpen={handleOpen} display={false} />
       {loading ? (
