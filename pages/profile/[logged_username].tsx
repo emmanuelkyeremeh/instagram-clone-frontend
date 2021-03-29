@@ -244,7 +244,7 @@ const profile = () => {
             <input
               type="file"
               name="avatar"
-              onChange={(e) => setavatar(e.target.files[0])}
+              onChange={(e: any) => setavatar(e.target.files[0])}
             />
             <input
               type="email"

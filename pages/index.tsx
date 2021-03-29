@@ -154,7 +154,7 @@ export default function Home() {
               <input
                 type="file"
                 name="image"
-                onChange={(e) => setimage(e.target.files[0])}
+                onChange={(e: any) => setimage(e.target.files[0])}
               />
               <input
                 type="text"
