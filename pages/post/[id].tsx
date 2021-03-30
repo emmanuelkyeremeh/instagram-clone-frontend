@@ -208,7 +208,7 @@ const posts = () => {
             <div className="post-container-header">
               <div className="post-container-header-left">
                 <Avatar className="post-container-header-avatar" />
-                <p>{newposts.user_username}</p>
+                <p>{newposts && newposts.user_username}</p>
               </div>
               <MoreHorizIcon
                 onClick={handleClick("bottom-start")}
@@ -216,7 +216,11 @@ const posts = () => {
               />
             </div>
             <div className="post-container-body">
-              <Image src={`/${newposts.image}`} width="600px" height="600px" />
+              <Image
+                src={`/${newposts && newposts.image}`}
+                width="600px"
+                height="600px"
+              />
             </div>
             <div className="post-container-reaction">
               <div className="post-container-reaction-left">
@@ -247,8 +251,10 @@ const posts = () => {
               </div>
             </div>
             <div className="post-container-caption">
-              <span className="username-span">{newposts.user_username} </span>
-              {newposts.caption}
+              <span className="username-span">
+                {newposts && newposts.user_username}{" "}
+              </span>
+              {newposts && newposts.caption}
             </div>
             <div className="post-container-comment">
               <span>Comments {commentList ? commentList.length : 0}</span>
