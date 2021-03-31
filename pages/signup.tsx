@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signup } from "../store/actions/userActions";
 import Error from "./error";
+import Head from "next/head";
 
 const Registeration = () => {
   const [firstName, setfirstName] = useState("");
@@ -33,6 +34,10 @@ const Registeration = () => {
   };
   return (
     <div className="signup-container">
+      <Head>
+        <title>Create an account on instagram</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <div className="signup-input">
         <div className="sign-up-image">
           <Image

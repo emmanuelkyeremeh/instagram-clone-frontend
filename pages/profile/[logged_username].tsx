@@ -127,6 +127,7 @@ const profile = () => {
           {SingleUser && SingleUser.firstName}{" "}
           {SingleUser && SingleUser.lastName}: Instagram Profile
         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Nav handleOpen={handleOpen} display={false} />
       <div className="profile-info">

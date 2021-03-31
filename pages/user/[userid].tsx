@@ -81,6 +81,7 @@ const UserDetail = () => {
     <div className="profile-container">
       <Head>
         <title>{SingleUser && SingleUser.username}: Instagram profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Nav handleOpen={handleOpen} display={false} />
       <div className="profile-info">

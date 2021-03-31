@@ -99,6 +99,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Instagram</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Nav handleOpen={handleOpen} display={true} />
       <div className="container">

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { login } from "../store/actions/userActions";
 import Error from "./error";
+import Head from "next/head";
 
 const Login = () => {
   const [username, setusername] = useState("");
@@ -24,6 +25,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <Head>
+        <title>Login to instagram</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <div className="login-image">
         <Image src="/instagram_Collections.jpeg" width="650" height="500" />
       </div>

@@ -191,6 +191,7 @@ const posts = () => {
     <div>
       <Head>
         <title>{newposts && newposts.user_username}: Post on Instagram</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Nav handleOpen={handleOpen} display={false} />
       {loading ? (
