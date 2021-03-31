@@ -466,8 +466,12 @@ a {
   }
 }
 @media screen and (max-width: 600px) {
-  body {
+  body,
+  html {
     overflow-x: hidden !important;
+  }
+  .profile-name p {
+    font-size: 0.8rem;
   }
   .profile-avatar {
     width: 80px !important;
