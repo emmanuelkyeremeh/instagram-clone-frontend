@@ -472,6 +472,10 @@ a {
   }
   .profile-name p {
     font-size: 0.8rem;
+    font-weight: bolder;
+  }
+  .profile-name-button {
+    padding: 5px;
   }
   .profile-avatar {
     width: 80px !important;

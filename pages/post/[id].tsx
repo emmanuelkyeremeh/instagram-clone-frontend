@@ -25,6 +25,7 @@ import { POST_DELETE_FAIL } from "../../store/constants/PostConstant";
 import { createComment, getComments } from "../../store/actions/CommentActions";
 import Image from "next/image";
 import { getAllLikes, likePost } from "../../store/actions/LikeActions";
+import { getUsers } from "../../store/actions/userActions";
 
 export async function getServerSideProps(context) {
   return {
@@ -88,6 +89,9 @@ const posts = () => {
 
   useEffect(() => {
     dispatch(getAllLikes());
+  }, []);
+  useEffect(() => {
+    dispatch(getUsers());
   }, []);
 
   const rand = () => {
@@ -155,14 +159,17 @@ const posts = () => {
 
   const findAllLikes = useSelector((state) => state.GetAllLikes);
   const { AllLikes } = findAllLikes;
+  const getEveryUser = useSelector((state) => state.getAllUsers);
+  const { Users } = getEveryUser;
 
   const getOnePost = useSelector((state) => state.getSinglePost);
   const { loading, error, newposts } = getOnePost;
+  console.log(newposts);
 
   const currentDate = new Date().toLocaleString();
 
   const commentHandler = async (e) => {
-    const userComment = newposts.user_username;
+    const userComment = userDataInsta.username;
     await dispatch(createComment(postid, userComment, comment, currentDate));
     location.reload();
   };
@@ -208,7 +215,27 @@ const posts = () => {
           <div className="post-container post-id-container-wrapper">
             <div className="post-container-header">
               <div className="post-container-header-left">
-                <Avatar className="post-container-header-avatar" />
+                {Users &&
+                  Users.map((allusers) => (
+                    <Avatar
+                      onClick={() =>
+                        userid === allusers._id
+                          ? router.push(`/profile/${allusers.username}`)
+                          : router.push(`/user/${allusers._id}`)
+                      }
+                      src={
+                        newposts && newposts.user === allusers._id
+                          ? `/${allusers.avatar}`
+                          : ""
+                      }
+                      className={
+                        newposts && newposts.user !== allusers._id
+                          ? "avatar-not-shown"
+                          : "post-container-header-avatar"
+                      }
+                      style={{ cursor: "pointer" }}
+                    />
+                  ))}
                 <p>{newposts && newposts.user_username}</p>
               </div>
               <MoreHorizIcon
