@@ -9,9 +9,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Head from "next/head";
-import Error from "../error";
-import { useRouter } from "next/router";
-import Nav from "../nav";
+import Error from "../../components/Error";
+import Nav from "../../components/Nav";
 import {
   deletePost,
   findSinglePost,
@@ -26,6 +25,10 @@ import { createComment, getComments } from "../../store/actions/CommentActions";
 import Image from "next/image";
 import { getAllLikes, likePost } from "../../store/actions/LikeActions";
 import { getUsers } from "../../store/actions/userActions";
+import { deleteImage, uploadImage } from "../../store/actions/ImageActions";
+import axios from "axios";
+import { useRouter } from "next/router";
+import uuid from "react-uuid";
 
 export async function getServerSideProps(context) {
   return {
@@ -109,9 +112,10 @@ const posts = () => {
 
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [image, setimage] = useState("");
+  const [image, setimage] = useState();
   const [caption, setcaption] = useState("");
   const [comment, setcomment] = useState("");
+  const [submitLoading, setsubmitLoading] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -133,15 +137,34 @@ const posts = () => {
   };
 
   const deleteHandler = async () => {
+    const imageName = image ? image.name : "";
+
+    await dispatch(deleteImage(imageName));
     await dispatch(deletePost(postid));
-    window.location.assign("/");
     dispatch({ type: POST_DELETE_FAIL });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await dispatch(updatePost(postid, image, caption));
-    window.location.assign("/");
+    setsubmitLoading(true);
+    let actualImage = "";
+    let imageName = "";
+    if (image) {
+      const newImage = new File([image], `${uuid()}${image.name}`, {
+        type: image.type,
+      });
+      imageName = newImage.name;
+      let imageData = new FormData();
+      imageData.append("image", newImage);
+
+      await dispatch(uploadImage(imageData));
+      const actualImageData = await axios.get(
+        `http://localhost:8080/api/image/${imageName}`
+      );
+      actualImage = actualImageData.data;
+    }
+    await dispatch(updatePost(postid, imageName, actualImage, caption));
+    location.reload();
   };
 
   const deletePosts = useSelector((state) => state.deletePost);
@@ -164,7 +187,6 @@ const posts = () => {
 
   const getOnePost = useSelector((state) => state.getSinglePost);
   const { loading, error, newposts } = getOnePost;
-  console.log(newposts);
 
   const currentDate = new Date().toLocaleString();
 
@@ -225,7 +247,9 @@ const posts = () => {
                       }
                       src={
                         newposts && newposts.user === allusers._id
-                          ? `/${allusers.avatar}`
+                          ? `data:image/jpeg;base64,${
+                              allusers && allusers.actualAvatar
+                            }`
                           : ""
                       }
                       className={
@@ -234,6 +258,7 @@ const posts = () => {
                           : "post-container-header-avatar"
                       }
                       style={{ cursor: "pointer" }}
+                      alt="post avatar"
                     />
                   ))}
                 <p>{newposts && newposts.user_username}</p>
@@ -245,7 +270,9 @@ const posts = () => {
             </div>
             <div className="post-container-body">
               <Image
-                src={`/${newposts && newposts.image}`}
+                src={`data:image/jpeg;base64,${
+                  newposts && newposts.actualImage
+                }`}
                 width="600px"
                 height="600px"
               />
@@ -362,11 +389,10 @@ const posts = () => {
             ) : null}
             <h2>Update Post</h2>
             <form className="form" onSubmit={submitHandler}>
+              <label htmlFor="file">Choose an image</label>
               <input
-                type="text"
-                placeholder="link to image.."
-                value={image}
-                onChange={(e) => setimage(e.target.value)}
+                type="file"
+                onChange={(e: any) => setimage(e.target.files[0])}
               />
               <input
                 type="text"
@@ -374,7 +400,9 @@ const posts = () => {
                 value={caption}
                 onChange={(e) => setcaption(e.target.value)}
               />
-              <button type="submit">Post</button>
+              <button type="submit" disabled={submitLoading}>
+                {submitLoading ? "Loading..." : "Post"}
+              </button>
             </form>
           </div>
         </div>

@@ -3,15 +3,18 @@ import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import GridOnOutlinedIcon from "@material-ui/icons/GridOnOutlined";
 import Image from "next/image";
 import Head from "next/head";
-import Nav from "../nav";
+import Nav from "../../components/Nav";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { findPostByUser } from "../../store/actions/PostActions";
-import Error from "../error";
+import Error from "../../components/Error";
 import { useRouter } from "next/router";
 import { makeStyles } from "@material-ui/core/styles";
 import { getSingleUser, UpdateUser } from "../../store/actions/userActions";
 import { getfollowers, getfollowing } from "../../store/actions/FollowActions";
+import { uploadImage } from "../../store/actions/ImageActions";
+import axios from "axios";
+import uuid from "react-uuid";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,8 +76,9 @@ const profile = () => {
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [avatar, setavatar] = useState("");
+  const [avatar, setavatar] = useState();
   const [bio, setbio] = useState("");
+  const [sumbitLoading, setsumbitLoading] = useState(false);
 
   const handleOpen = () => {
     //boilerplate function for props and error removal!
@@ -100,24 +104,43 @@ const profile = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("avatar", avatar);
-    formData.append("bio", bio);
-    formData.append("email", email);
-    formData.append("password", password);
+    setsumbitLoading(true);
+    let actualAvatar = "";
+    let avatarName = "";
+    if (avatar) {
+      const newAvatar = new File([avatar], `${uuid()}${avatar.name}`, {
+        type: avatar.type,
+      });
+      avatarName = newAvatar.name;
+      const imageData = new FormData();
+      imageData.append("image", newAvatar);
 
-    await dispatch(UpdateUser(userDataInsta._id, formData));
+      await dispatch(uploadImage(imageData));
+
+      const actualAvatarData = await axios.get(
+        `http://localhost:8080/api/image/${avatarName}`
+      );
+      actualAvatar = actualAvatarData.data;
+    }
+
+    await dispatch(
+      UpdateUser(
+        userDataInsta._id,
+        firstName,
+        lastName,
+        avatarName,
+        actualAvatar,
+        bio,
+        email,
+        password
+      )
+    );
+
     location.reload();
   };
 
-  const ISSERVER = typeof window === "undefined";
-
-  if (!ISSERVER) {
-    if (!userDataInsta) {
-      window.location.assign("/accounts/login");
-    }
+  if (!userDataInsta) {
+    window.location.assign("/accounts/login");
   }
 
   return (
@@ -134,7 +157,9 @@ const profile = () => {
         <div className="profile-avatar">
           <Avatar
             alt="User"
-            src={`/${SingleUser && SingleUser.avatar}`}
+            src={`data:image/jpeg;base64,${
+              SingleUser && SingleUser.actualAvatar
+            }`}
             className="profile-avatar"
           />
         </div>
@@ -186,7 +211,7 @@ const profile = () => {
                 className="post-hover-image"
                 width="290"
                 height="300"
-                src={`/${post.image}`}
+                src={`data:image/jpeg;base64,${post.actualImage}`}
                 onClick={(e) => router.push(`/post/${post._id}`)}
               />
             </div>
@@ -259,7 +284,9 @@ const profile = () => {
               value={password}
               onChange={(e) => setpassword(e.target.value)}
             />
-            <button type="submit">Edit Profile</button>
+            <button type="submit" disabled={sumbitLoading}>
+              {sumbitLoading ? "Loading..." : "Edit Profile"}
+            </button>
           </form>
         </div>
       </Modal>

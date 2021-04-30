@@ -4,13 +4,14 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { login } from "../store/actions/userActions";
-import Error from "./error";
+import Error from "../components/Error";
 import Head from "next/head";
 
 const Login = () => {
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const loginDetails = useSelector((state) => state.Login);
@@ -18,6 +19,7 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setSubmitLoading(true);
     await dispatch(login(username, email, password));
 
     router.push("/");

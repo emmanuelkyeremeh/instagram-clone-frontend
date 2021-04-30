@@ -79,7 +79,11 @@ const Post = ({ id, img, caption, username, userid }) => {
                       ? router.push(`/profile/${allusers.username}`)
                       : router.push(`/user/${allusers._id}`)
                   }
-                  src={userid === allusers._id ? `/${allusers.avatar}` : ""}
+                  src={
+                    userid === allusers._id
+                      ? `data:image/jpeg;base64,${allusers.actualAvatar}`
+                      : ""
+                  }
                   className={
                     userid !== allusers._id
                       ? "avatar-not-shown"
@@ -95,7 +99,7 @@ const Post = ({ id, img, caption, username, userid }) => {
         <div onClick={routerHandler} className="post-container-body">
           <Image
             className="post-container-image"
-            src={`/${img}`}
+            src={`data:image/jpeg;base64,${img}`}
             width="600px"
             height="600px"
           />
@@ -127,7 +131,7 @@ const Post = ({ id, img, caption, username, userid }) => {
           </div>
         </div>
         <div className="post-container-caption">
-          <span className="username-span">{username} </span>
+          <span className="username-span"> {username} </span>
           {caption}
         </div>
         <div className="post-container-comment"></div>

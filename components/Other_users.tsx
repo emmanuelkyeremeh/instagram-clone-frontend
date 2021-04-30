@@ -1,5 +1,5 @@
 import { Avatar } from "@material-ui/core";
-import { followUser, getFollowData } from "../../store/actions/FollowActions";
+import { followUser, getFollowData } from "../store/actions/FollowActions";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -50,7 +50,10 @@ const Other_users = ({ id, display, follower, followed, username, avatar }) => {
   return (
     <div className="all-other-users-container2" style={{ display: display }}>
       <div className="all-other-users" onClick={routerHandler}>
-        <Avatar src={`/${avatar}`} style={{ cursor: "pointer" }} />
+        <Avatar
+          src={`data:image/jpeg;base64,${avatar}`}
+          style={{ cursor: "pointer" }}
+        />
         <div className="all-other-user-details">
           <p>{username}</p>
         </div>

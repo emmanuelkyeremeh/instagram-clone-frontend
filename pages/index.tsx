@@ -1,16 +1,18 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Nav from "./nav";
+import Nav from "../components/Nav";
 import { useSelector, useDispatch } from "react-redux";
-import Post from "./post";
-import { useRouter } from "next/router";
+import Post from "../components/Post";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { createPost } from "../store/actions/PostActions";
-import Error from "./error";
+import Error from "../components/Error";
 import { getposts } from "../store/actions/PostActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Profiles from "./profile/profiles";
+import Profiles from "../components/Profiles";
+import { uploadImage } from "../store/actions/ImageActions";
+import uuid from "react-uuid";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,12 +35,8 @@ export default function Home() {
   const user = useSelector((state) => state.Login);
   const { userDataInsta } = user;
 
-  const ISSERVER = typeof window === "undefined";
-
-  if (!ISSERVER) {
-    if (!userDataInsta) {
-      window.location.assign("/login");
-    }
+  if (!userDataInsta) {
+    window.location.assign("/login");
   }
 
   const _id = userDataInsta._id;
@@ -49,7 +47,6 @@ export default function Home() {
   const username = userDataInsta.username;
   const post = useSelector((state) => state.createPost);
   const { loading, error } = post;
-  const router = useRouter();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -74,6 +71,7 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [image, setimage] = useState();
   const [caption, setcaption] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -85,14 +83,29 @@ export default function Home() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("_id", _id);
-    formData.append("username", username);
-    formData.append("image", image);
-    formData.append("caption", caption);
+    setSubmitLoading(true);
+    let actualImage = "";
+    let imageName = "";
+    if (image) {
+      const newImage = new File([image], `${uuid()}${image.name}`, {
+        type: image.type,
+      });
+      imageName = newImage.name;
 
-    await dispatch(createPost(formData));
-    location.reload();
+      const ImageData = new FormData();
+
+      ImageData.append("image", newImage);
+      await dispatch(uploadImage(ImageData));
+
+      const imageData = await axios.get(
+        `http://localhost:8080/api/image/${imageName}`
+      );
+      actualImage = imageData.data;
+    }
+
+    await dispatch(createPost(_id, username, imageName, actualImage, caption));
+
+    // location.reload();
   };
 
   return (
@@ -120,7 +133,7 @@ export default function Home() {
                       key={post._id}
                       id={post._id}
                       userid={post.user}
-                      img={post.image}
+                      img={post.actualImage}
                       caption={post.caption}
                       username={post.user_username}
                     />
@@ -155,6 +168,7 @@ export default function Home() {
               <input
                 type="file"
                 name="image"
+                required
                 onChange={(e: any) => setimage(e.target.files[0])}
               />
               <input
@@ -163,7 +177,9 @@ export default function Home() {
                 value={caption}
                 onChange={(e) => setcaption(e.target.value)}
               />
-              <button type="submit">Post</button>
+              <button type="submit" disabled={submitLoading}>
+                {submitLoading ? "Loading..." : "Post"}
+              </button>
             </form>
           </div>
         </div>

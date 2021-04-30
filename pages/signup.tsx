@@ -4,16 +4,20 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signup } from "../store/actions/userActions";
-import Error from "./error";
 import Head from "next/head";
+import Error from "../components/Error";
+import { uploadImage } from "../store/actions/ImageActions";
+import axios from "axios";
+import uuid from "react-uuid";
 
 const Registeration = () => {
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
-  const [avatar, setavatar] = useState("");
+  const [avatar, setavatar] = useState();
   const [password, setpassword] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const userSignUp = useSelector((state) => state.Signup);
@@ -21,14 +25,35 @@ const Registeration = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("username", username);
-    formData.append("avatar", avatar);
-    formData.append("email", email);
-    formData.append("password", password);
-    await dispatch(signup(formData));
+    setSubmitLoading(true);
+    let actualAvatar = "";
+    let avatarName = "";
+    if (avatar) {
+      const newAvatar = new File([avatar], `${uuid()}${avatar.name}`, {
+        type: avatar.type,
+      });
+      avatarName = newAvatar.name;
+      const imageData = new FormData();
+      imageData.append("image", newAvatar);
+      await dispatch(uploadImage(imageData));
+
+      const actualAvatarData = await axios.get(
+        `http://localhost:8080/api/image/${avatarName}`
+      );
+      actualAvatar = actualAvatarData.data;
+    }
+
+    await dispatch(
+      signup(
+        firstName,
+        lastName,
+        username,
+        avatarName,
+        actualAvatar,
+        email,
+        password
+      )
+    );
 
     router.push("/");
   };
@@ -78,7 +103,7 @@ const Registeration = () => {
             value={username}
             onChange={(e) => setusername(e.target.value)}
           />
-          <label htmlFor="avatar">Upload a profile picture</label>
+          <label htmlFor="avatar">Upload a profile picture (optional) </label>
           <input
             type="file"
             name="avatar"
@@ -96,7 +121,9 @@ const Registeration = () => {
             value={password}
             onChange={(e) => setpassword(e.target.value)}
           />
-          <button type="submit">Sign Up</button>
+          <button type="submit" disabled={submitLoading}>
+            {submitLoading ? "Loading..." : "Sign Up"}
+          </button>
         </form>
       </div>
       <div className="signup-login">

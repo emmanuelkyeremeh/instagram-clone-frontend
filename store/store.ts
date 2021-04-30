@@ -30,10 +30,12 @@ import {
   followingReducer,
   followUserReducer,
 } from "./reducers/FollowReducer";
+import { getAllLikesReducer, likePostReducer } from "./reducers/LikeReducers";
 import {
-  getAllLikesReducer,
-  likePostReducer,
-} from "./reducers/LikeReducers";
+  deleteImageReducer,
+  getSingleImageReducer,
+  uploadImageReducer,
+} from "./reducers/ImageReducer";
 
 let userData = "";
 
@@ -71,6 +73,9 @@ const reducer = combineReducers({
   AllComments: getAllCommentsReducer,
   LikePost: likePostReducer,
   GetAllLikes: getAllLikesReducer,
+  UploadImage: uploadImageReducer,
+  GetSingleImage: getSingleImageReducer,
+  DeleteImage: deleteImageReducer,
 });
 
 let store;

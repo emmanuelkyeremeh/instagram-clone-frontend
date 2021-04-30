@@ -22,15 +22,12 @@ export const createComment = (postid, username, comment, date) => async (
     date,
   });
   try {
-    const res = await axios.post(
-      "https://instagram-clone-backend-1.herokuapp.com/api/comments/",
-      {
-        postid,
-        username,
-        comment,
-        date,
-      }
-    );
+    const res = await axios.post("http://localhost:8080/api/comments/", {
+      postid,
+      username,
+      comment,
+      date,
+    });
     dispatch({ type: CREATE_COMMENT_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -47,7 +44,7 @@ export const getComments = (postid) => async (dispatch) => {
   dispatch({ type: GET_COMMENT_REQUEST, payload: postid });
   try {
     const res = await axios.get(
-      `https://instagram-clone-backend-1.herokuapp.com/api/comments/get/comment/${postid}`
+      `http://localhost:8080/api/comments/get/comment/${postid}`
     );
     dispatch({ type: GET_COMMENT_SUCCESS, payload: res.data });
   } catch (error) {
@@ -65,7 +62,7 @@ export const getAllComments = () => async (dispatch) => {
   dispatch({ type: GET_ALL_COMMENTS_REQUEST });
   try {
     const res = await axios.get(
-      "https://instagram-clone-backend-1.herokuapp.com/api/comments/get/comments"
+      "http://localhost:8080/api/comments/get/comments"
     );
     dispatch({ type: GET_ALL_COMMENTS_SUCCESS, payload: res.data });
   } catch (error) {

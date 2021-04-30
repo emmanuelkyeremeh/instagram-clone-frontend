@@ -12,9 +12,9 @@ import {
 } from "../../store/actions/FollowActions";
 import { findPostByUser } from "../../store/actions/PostActions";
 import { getSingleUser } from "../../store/actions/userActions";
-import Nav from "../nav";
+import Nav from "../../components/Nav";
 import Image from "next/image";
-import Error from "../error";
+import Error from "../../components/Error";
 
 export async function getServerSideProps(context) {
   return {
@@ -88,7 +88,9 @@ const UserDetail = () => {
         <div className="profile-avatar">
           <Avatar
             alt="User"
-            src={`/${SingleUser && SingleUser.avatar}`}
+            src={`data:image/jpeg;base64,${
+              SingleUser && SingleUser.actualAvatar
+            }`}
             className="profile-avatar"
           />
         </div>

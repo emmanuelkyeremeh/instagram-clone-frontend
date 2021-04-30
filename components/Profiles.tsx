@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Avatar } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleUser, getUsers } from "../../store/actions/userActions";
-import OtherUsers from "./other_users";
+import { getSingleUser, getUsers } from "../store/actions/userActions";
+import OtherUsers from "./Other_users";
 import { useRouter } from "next/router";
 
 const profiles = ({ userid }) => {
@@ -34,7 +34,9 @@ const profiles = ({ userid }) => {
           <Avatar
             className="single-user-avatar"
             alt="profile-image"
-            src={SingleUser && `/${SingleUser.avatar}`}
+            src={
+              SingleUser && `data:image/jpeg;base64,${SingleUser.actualAvatar}`
+            }
           />
           <div className="logged-in-user-details">
             <p>
@@ -62,7 +64,7 @@ const profiles = ({ userid }) => {
               follower={SingleUser && SingleUser._id}
               followed={user && user._id}
               username={user.username}
-              avatar={user.avatar}
+              avatar={user.actualAvatar}
             />
           ))}
       </div>

@@ -71,30 +71,6 @@ const Nav = ({ handleOpen, display }) => {
             </Link>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Direct Message">
-          <IconButton>
-            <SendRoundedIcon
-              style={{ color: "black" }}
-              className="navbar-icon"
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Explore">
-          <IconButton>
-            <ExploreOutlinedIcon
-              style={{ color: "black" }}
-              className="navbar-icon"
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Me">
-          <IconButton onClick={handleClick("bottom")}>
-            <AccountCircleRoundedIcon
-              style={{ color: "black" }}
-              className="navbar-icon"
-            />
-          </IconButton>
-        </Tooltip>
         {display ? (
           <Tooltip title="Create Post">
             <IconButton onClick={handleOpen}>
@@ -105,6 +81,30 @@ const Nav = ({ handleOpen, display }) => {
             </IconButton>
           </Tooltip>
         ) : null}
+        <Tooltip title="Me">
+          <IconButton onClick={handleClick("bottom")}>
+            <AccountCircleRoundedIcon
+              style={{ color: "black" }}
+              className="navbar-icon"
+            />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Direct Message">
+          <IconButton>
+            <SendRoundedIcon
+              style={{ color: "black" }}
+              className="navbar-icon message-icon"
+            />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Explore">
+          <IconButton>
+            <ExploreOutlinedIcon
+              style={{ color: "black" }}
+              className="navbar-icon explore-icon"
+            />
+          </IconButton>
+        </Tooltip>
       </div>
       <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
         {({ TransitionProps }) => (
