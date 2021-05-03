@@ -32,13 +32,16 @@ export const createPost = (
     payload: { _id, username, imageName, actualImage, caption },
   });
   try {
-    const res = await axios.post("http://localhost:8080/api/posts/", {
-      _id,
-      username,
-      imageName,
-      actualImage,
-      caption,
-    });
+    const res = await axios.post(
+      "https://instagram-clone-backend-1.herokuapp.com/api/posts/",
+      {
+        _id,
+        username,
+        imageName,
+        actualImage,
+        caption,
+      }
+    );
     dispatch({ type: CREATE_POST_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -54,7 +57,9 @@ export const createPost = (
 export const getposts = () => async (dispatch) => {
   dispatch({ type: GET_POSTS_REQUEST });
   try {
-    const res = await axios.get("http://localhost:8080/api/posts/get/posts");
+    const res = await axios.get(
+      "https://instagram-clone-backend-1.herokuapp.com/api/posts/get/posts"
+    );
     dispatch({ type: GET_POSTS_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -70,7 +75,9 @@ export const getposts = () => async (dispatch) => {
 export const findSinglePost = (postid) => async (dispatch) => {
   dispatch({ type: FIND_SINGLE_POST_REQUEST, payload: postid });
   try {
-    const res = await axios.get(`http://localhost:8080/api/posts/${postid}`);
+    const res = await axios.get(
+      `https://instagram-clone-backend-1.herokuapp.com/api/posts/${postid}`
+    );
     dispatch({ type: FIND_SINGLE_POST_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -87,7 +94,7 @@ export const findPostByUser = (userid) => async (dispatch) => {
   dispatch({ type: FIND_POST_BY_USER_REQUEST, payload: userid });
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/posts/user/${userid}`
+      `https://instagram-clone-backend-1.herokuapp.com/api/posts/user/${userid}`
     );
     dispatch({ type: FIND_POST_BY_USER_SUCCESS, payload: res.data });
   } catch (error) {
@@ -104,7 +111,9 @@ export const findPostByUser = (userid) => async (dispatch) => {
 export const deletePost = (postid) => async (dispatch) => {
   dispatch({ type: POST_DELETE_REQUEST, payload: postid });
   try {
-    const res = await axios.delete(`http://localhost:8080/api/posts/${postid}`);
+    const res = await axios.delete(
+      `https://instagram-clone-backend-1.herokuapp.com/api/posts/${postid}`
+    );
     dispatch({ type: POST_DELETE_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -125,12 +134,15 @@ export const updatePost = (postid, imageName, actualImage, caption) => async (
     payload: { postid, imageName, actualImage, caption },
   });
   try {
-    const res = await axios.put(`http://localhost:8080/api/posts/${postid}`, {
-      postid,
-      imageName,
-      actualImage,
-      caption,
-    });
+    const res = await axios.put(
+      `https://instagram-clone-backend-1.herokuapp.com/api/posts/${postid}`,
+      {
+        postid,
+        imageName,
+        actualImage,
+        caption,
+      }
+    );
     dispatch({ type: POST_UPDATE_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({

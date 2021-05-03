@@ -15,7 +15,7 @@ const Registeration = () => {
   const [lastName, setlastName] = useState("");
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
-  const [avatar, setavatar] = useState();
+  const [avatar, setavatar] = useState(null);
   const [password, setpassword] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const Registeration = () => {
       await dispatch(uploadImage(imageData));
 
       const actualAvatarData = await axios.get(
-        `http://localhost:8080/api/image/${avatarName}`
+        `https://instagram-clone-backend-1.herokuapp.com/api/image/${avatarName}`
       );
       actualAvatar = actualAvatarData.data;
     }

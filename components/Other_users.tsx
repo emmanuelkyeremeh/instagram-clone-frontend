@@ -20,6 +20,8 @@ const Other_users = ({ id, display, follower, followed, username, avatar }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [submitLoading, setsubmitLoading] = useState(false);
+
   let isFollowing = 0;
 
   useEffect(() => {
@@ -27,6 +29,7 @@ const Other_users = ({ id, display, follower, followed, username, avatar }) => {
   }, []);
 
   const FollowHandler = async (e) => {
+    setsubmitLoading(true);
     await dispatch(followUser(follower, followed));
     location.reload();
   };
@@ -74,6 +77,7 @@ const Other_users = ({ id, display, follower, followed, username, avatar }) => {
           <button
             className="all-other-users-follow-button"
             onClick={FollowHandler}
+            disabled={submitLoading}
           >
             Follow
           </button>

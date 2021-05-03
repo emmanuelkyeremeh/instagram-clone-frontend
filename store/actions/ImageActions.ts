@@ -14,11 +14,15 @@ import {
 export const uploadImage = (image) => async (dispatch) => {
   dispatch({ type: UPLOAD_IMAGE_REQUEST, payload: image });
   try {
-    const res = await axios.post("http://localhost:8080/api/image/", image, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
+    const res = await axios.post(
+      "https://instagram-clone-backend-1.herokuapp.com/api/image/",
+      image,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      }
+    );
     dispatch({ type: UPLOAD_IMAGE_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -34,7 +38,9 @@ export const uploadImage = (image) => async (dispatch) => {
 export const getSingleImage = (filename) => async (dispatch) => {
   dispatch({ type: GET_SINGLE_IMAGE_REQUEST, payload: filename });
   try {
-    const res = await axios.get(`http://localhost:8080/api/image/${filename}`);
+    const res = await axios.get(
+      `https://instagram-clone-backend-1.herokuapp.com/api/image/${filename}`
+    );
     dispatch({ type: GET_SINGLE_IMAGE_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -51,7 +57,7 @@ export const deleteImage = (filename) => async (dispatch) => {
   dispatch({ type: DELETE_IMAGE_REQUEST, payload: filename });
   try {
     const res = await axios.delete(
-      `http://localhost:8080/api/image/${filename}`
+      `https://instagram-clone-backend-1.herokuapp.com/api/image/${filename}`
     );
     dispatch({ type: DELETE_IMAGE_SUCCESS, payload: res.data });
   } catch (error) {

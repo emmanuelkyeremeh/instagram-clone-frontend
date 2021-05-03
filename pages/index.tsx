@@ -69,7 +69,7 @@ export default function Home() {
 
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [image, setimage] = useState();
+  const [image, setimage] = useState(null);
   const [caption, setcaption] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -86,8 +86,9 @@ export default function Home() {
     setSubmitLoading(true);
     let actualImage = "";
     let imageName = "";
+
     if (image) {
-      const newImage = new File([image], `${uuid()}${image.name}`, {
+      const newImage = new File([image], `${uuid()}${image?.name}`, {
         type: image.type,
       });
       imageName = newImage.name;
@@ -98,14 +99,14 @@ export default function Home() {
       await dispatch(uploadImage(ImageData));
 
       const imageData = await axios.get(
-        `http://localhost:8080/api/image/${imageName}`
+        `https://instagram-clone-backend-1.herokuapp.com/api/image/${imageName}`
       );
       actualImage = imageData.data;
     }
 
     await dispatch(createPost(_id, username, imageName, actualImage, caption));
 
-    // location.reload();
+    location.reload();
   };
 
   return (

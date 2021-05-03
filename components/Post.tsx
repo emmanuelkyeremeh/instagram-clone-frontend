@@ -17,6 +17,8 @@ const Post = ({ id, img, caption, username, userid }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const [submitLoading, setsubmitLoading] = useState(false);
+
   let commentList = 0;
   let likeList = 0;
   let isLiked = 0;
@@ -35,6 +37,7 @@ const Post = ({ id, img, caption, username, userid }) => {
   }, []);
 
   const LikeHandler = async (e) => {
+    setsubmitLoading(true);
     await dispatch(likePost(userid, id));
     location.reload();
   };
@@ -112,8 +115,14 @@ const Post = ({ id, img, caption, username, userid }) => {
                 <p className="reaction-icon-div-p">{likeList}</p>
               </div>
             ) : (
-              <div className="reaction-icon-div" onClick={LikeHandler}>
-                <FavoriteBorderIcon />
+              <div className="reaction-icon-div">
+                <button
+                  className="reaction-icon-div-button"
+                  disabled={submitLoading}
+                  onClick={LikeHandler}
+                >
+                  <FavoriteBorderIcon />
+                </button>
                 <p className="reaction-icon-div-p">{likeList}</p>
               </div>
             )}

@@ -25,6 +25,7 @@ export async function getServerSideProps(context) {
 const UserDetail = () => {
   const [userid] = useState(router.query.userid);
   const dispatch = useDispatch();
+  const [submitLoading, setsubmitLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getSingleUser(userid));
@@ -66,6 +67,7 @@ const UserDetail = () => {
   const { SingleUser } = UpdatedUserData;
 
   const FollowHandler = async (e) => {
+    setsubmitLoading(true);
     await dispatch(followUser(LoggeduserId, userid));
     location.reload();
   };
@@ -105,6 +107,7 @@ const UserDetail = () => {
               <button
                 className="all-other-users-follow-button"
                 onClick={FollowHandler}
+                disabled={submitLoading}
               >
                 Follow
               </button>

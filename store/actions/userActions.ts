@@ -40,15 +40,18 @@ export const signup = (
     },
   });
   try {
-    const res = await axios.post("http://localhost:8080/api/users/signup", {
-      firstName,
-      lastName,
-      username,
-      avatarName,
-      actualAvatar,
-      email,
-      password,
-    });
+    const res = await axios.post(
+      "https://instagram-clone-backend-1.herokuapp.com/api/users/signup",
+      {
+        firstName,
+        lastName,
+        username,
+        avatarName,
+        actualAvatar,
+        email,
+        password,
+      }
+    );
     dispatch({ type: USER_SIGNUP_SUCCESS, payload: res.data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: res.data });
     localStorage.setItem("userDataInsta", JSON.stringify(res.data));
@@ -69,11 +72,14 @@ export const login = (username, email, password) => async (dispatch) => {
     payload: { username, email, password },
   });
   try {
-    const res = await axios.post("http://localhost:8080/api/users/login", {
-      username,
-      email,
-      password,
-    });
+    const res = await axios.post(
+      "https://instagram-clone-backend-1.herokuapp.com/api/users/login",
+      {
+        username,
+        email,
+        password,
+      }
+    );
     dispatch({ type: USER_LOGIN_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -89,7 +95,9 @@ export const login = (username, email, password) => async (dispatch) => {
 export const getUsers = () => async (dispatch) => {
   dispatch({ type: GET_USERS_REQUEST });
   try {
-    const res = await axios.get("http://localhost:8080/api/users/");
+    const res = await axios.get(
+      "https://instagram-clone-backend-1.herokuapp.com/api/users/"
+    );
     dispatch({ type: GET_USERS_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -104,7 +112,9 @@ export const getUsers = () => async (dispatch) => {
 export const getSingleUser = (userId) => async (dispatch) => {
   dispatch({ type: GET_SINGLE_USER_REQUEST, payload: userId });
   try {
-    const res = await axios.get(`http://localhost:8080/api/users/${userId}`);
+    const res = await axios.get(
+      `https://instagram-clone-backend-1.herokuapp.com/api/users/${userId}`
+    );
     dispatch({ type: GET_SINGLE_USER_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -141,7 +151,7 @@ export const UpdateUser = (
   });
   try {
     const res = await axios.put(
-      `http://localhost:8080/api/users/update/user/${userid}`,
+      `https://instagram-clone-backend-1.herokuapp.com/api/users/update/user/${userid}`,
       { firstName, lastName, avatarName, actualAvatar, bio, email, password }
     );
     dispatch({ type: USER_UPDATE_SUCCESS, payload: res.data });

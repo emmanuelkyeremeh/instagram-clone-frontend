@@ -112,7 +112,7 @@ const posts = () => {
 
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
-  const [image, setimage] = useState();
+  const [image, setimage] = useState(null);
   const [caption, setcaption] = useState("");
   const [comment, setcomment] = useState("");
   const [submitLoading, setsubmitLoading] = useState(false);
@@ -137,11 +137,14 @@ const posts = () => {
   };
 
   const deleteHandler = async () => {
-    const imageName = image ? image.name : "";
-
+    let imageName = "";
+    if (newposts) {
+      imageName = newposts.imageName;
+    }
     await dispatch(deleteImage(imageName));
     await dispatch(deletePost(postid));
     dispatch({ type: POST_DELETE_FAIL });
+    window.location.assign("/");
   };
 
   const submitHandler = async (e) => {
@@ -159,7 +162,7 @@ const posts = () => {
 
       await dispatch(uploadImage(imageData));
       const actualImageData = await axios.get(
-        `http://localhost:8080/api/image/${imageName}`
+        `https://instagram-clone-backend-1.herokuapp.com/api/image/${imageName}`
       );
       actualImage = actualImageData.data;
     }
@@ -171,11 +174,7 @@ const posts = () => {
   const { loading: deleteloading, error: deleteerror, success } = deletePosts;
 
   const updatePosts = useSelector((state) => state.updatePost);
-  const {
-    loading: updatePostLoading,
-    error: updatePostError,
-    success: updatePostSuccess,
-  } = updatePosts;
+  const { loading: updatePostLoading, error: updatePostError } = updatePosts;
 
   const getUserComment = useSelector((state) => state.getUserComments);
   const { commentList } = getUserComment;
@@ -191,11 +190,13 @@ const posts = () => {
   const currentDate = new Date().toLocaleString();
 
   const commentHandler = async (e) => {
+    setsubmitLoading(true);
     const userComment = userDataInsta.username;
     await dispatch(createComment(postid, userComment, comment, currentDate));
     location.reload();
   };
   const LikeHandler = async (e) => {
+    setsubmitLoading(true);
     await dispatch(likePost(userid, postid));
     location.reload();
   };
@@ -285,8 +286,14 @@ const posts = () => {
                     <p className="reaction-icon-div-p">{numberofLikes}</p>
                   </div>
                 ) : (
-                  <div className="reaction-icon-div" onClick={LikeHandler}>
-                    <FavoriteBorderIcon />
+                  <div className="reaction-icon-div">
+                    <button
+                      disabled={submitLoading}
+                      onClick={LikeHandler}
+                      className="reaction-icon-div-button"
+                    >
+                      <FavoriteBorderIcon />
+                    </button>
                     <p className="reaction-icon-div-p">{numberofLikes}</p>
                   </div>
                 )}
@@ -336,7 +343,11 @@ const posts = () => {
                 onChange={(e) => setcomment(e.target.value)}
                 placeholder="Add a comment"
               />
-              <button className="post-container-input-submit" type="submit">
+              <button
+                disabled={submitLoading}
+                className="post-container-input-submit"
+                type="submit"
+              >
                 Post
               </button>
             </form>

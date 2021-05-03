@@ -76,7 +76,7 @@ const profile = () => {
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [avatar, setavatar] = useState();
+  const [avatar, setavatar] = useState(null);
   const [bio, setbio] = useState("");
   const [sumbitLoading, setsumbitLoading] = useState(false);
 
@@ -118,7 +118,7 @@ const profile = () => {
       await dispatch(uploadImage(imageData));
 
       const actualAvatarData = await axios.get(
-        `http://localhost:8080/api/image/${avatarName}`
+        `https://instagram-clone-backend-1.herokuapp.com/api/image/${avatarName}`
       );
       actualAvatar = actualAvatarData.data;
     }

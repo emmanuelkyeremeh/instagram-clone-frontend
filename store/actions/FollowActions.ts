@@ -17,10 +17,13 @@ import axios from "axios";
 export const followUser = (follower, followed) => async (dispatch) => {
   dispatch({ type: FOLLOW_USER_REQUEST, payload: { follower, followed } });
   try {
-    const res = await axios.post("http://localhost:8080/api/follow", {
-      follower,
-      followed,
-    });
+    const res = await axios.post(
+      "https://instagram-clone-backend-1.herokuapp.com/api/follow",
+      {
+        follower,
+        followed,
+      }
+    );
     dispatch({ type: FOLLOW_USER_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -36,7 +39,9 @@ export const followUser = (follower, followed) => async (dispatch) => {
 export const getFollowData = () => async (dispatch) => {
   dispatch({ type: GET_FOLLOW_DATA_REQUEST });
   try {
-    const res = await axios.get(`http://localhost:8080/api/follow/info/`);
+    const res = await axios.get(
+      `https://instagram-clone-backend-1.herokuapp.com/api/follow/info/`
+    );
     dispatch({ type: GET_FOLLOW_DATA_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({
@@ -53,7 +58,7 @@ export const getfollowers = (userid) => async (dispatch) => {
   dispatch({ type: GET_FOLLOWERS_REQUEST, payload: userid });
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/follow/followers/${userid}`
+      `https://instagram-clone-backend-1.herokuapp.com/api/follow/followers/${userid}`
     );
     dispatch({ type: GET_FOLLOWERS_SUCCESS, payload: res.data });
   } catch (error) {
@@ -71,7 +76,7 @@ export const getfollowing = (userid) => async (dispatch) => {
   dispatch({ type: GET_FOLLOWING_REQUEST, payload: userid });
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/follow/following/${userid}`
+      `https://instagram-clone-backend-1.herokuapp.com/api/follow/following/${userid}`
     );
     dispatch({ type: GET_FOLLOWING_SUCCESS, payload: res.data });
   } catch (error) {

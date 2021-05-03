@@ -141,6 +141,16 @@ a {
   align-items: center;
   cursor: pointer;
 }
+.reaction-icon-div-button {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.reaction-icon-div-button:focus {
+  outline: none;
+  background: transparent;
+}
 .reaction-icon-div-p {
   color: gray;
   margin-left: 5px;
