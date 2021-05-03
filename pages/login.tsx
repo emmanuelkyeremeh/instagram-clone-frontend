@@ -39,7 +39,7 @@ const Login = () => {
       </Head>
       <div className="login-image">
         <Image
-          src="/instagram_Collections.jpeg"
+          src="/Instagram_Collections.jpeg"
           width="650"
           height="500"
           alt="instagram-photo"
