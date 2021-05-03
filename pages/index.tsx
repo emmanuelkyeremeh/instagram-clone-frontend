@@ -32,12 +32,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-  const user = useSelector((state) => state.Login);
-  const { userDataInsta } = user;
+  const User = localStorage.getItem("userDataInsta");
 
-  if (!userDataInsta) {
+  if (!User) {
     window.location.assign("/login");
   }
+
+  const user = useSelector((state) => state.Login);
+  const { userDataInsta } = user;
 
   const _id = userDataInsta._id;
 

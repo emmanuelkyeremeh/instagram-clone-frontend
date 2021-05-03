@@ -73,6 +73,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const posts = () => {
+  const User = localStorage.getItem("userDataInsta");
+
+  if (!User) {
+    window.location.assign("/login");
+  }
   const router = useRouter();
   const [postid] = useState(router.query.id);
 

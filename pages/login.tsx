@@ -8,6 +8,11 @@ import Error from "../components/Error";
 import Head from "next/head";
 
 const Login = () => {
+  const User = localStorage.getItem("userDataInsta");
+
+  if (User) {
+    window.location.assign("/");
+  }
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");

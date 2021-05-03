@@ -155,6 +155,7 @@ export const UpdateUser = (
       { firstName, lastName, avatarName, actualAvatar, bio, email, password }
     );
     dispatch({ type: USER_UPDATE_SUCCESS, payload: res.data });
+    localStorage.setItem("userDataInsta", JSON.stringify(res.data));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,

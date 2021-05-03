@@ -23,6 +23,11 @@ export async function getServerSideProps(context) {
 }
 
 const UserDetail = () => {
+  const User = localStorage.getItem("userDataInsta");
+
+  if (!User) {
+    window.location.assign("/login");
+  }
   const [userid] = useState(router.query.userid);
   const dispatch = useDispatch();
   const [submitLoading, setsubmitLoading] = useState(false);

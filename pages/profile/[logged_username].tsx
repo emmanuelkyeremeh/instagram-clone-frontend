@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const profile = () => {
+  const User = localStorage.getItem("userDataInsta");
+
+  if (!User) {
+    window.location.assign("/login");
+  }
   const userData = useSelector((state) => state.Login);
   const { userDataInsta } = userData;
   const userId = userDataInsta._id;
