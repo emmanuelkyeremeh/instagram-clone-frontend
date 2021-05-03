@@ -93,6 +93,7 @@ const Post = ({ id, img, caption, username, userid }) => {
                       : "post-container-header-avatar"
                   }
                   style={{ cursor: "pointer" }}
+                  alt="user avatar"
                 />
               ))}
             <p>{username}</p>
@@ -105,6 +106,7 @@ const Post = ({ id, img, caption, username, userid }) => {
             src={`data:image/jpeg;base64,${img}`}
             width="600px"
             height="600px"
+            alt="post image"
           />
         </div>
         <div className="post-container-reaction">

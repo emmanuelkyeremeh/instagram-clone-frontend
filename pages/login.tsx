@@ -30,14 +30,30 @@ const Login = () => {
       <Head>
         <title>Login to instagram</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Login to instagram. A build was created with vercel's next.js"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta charSet="UTF-8" />
       </Head>
       <div className="login-image">
-        <Image src="/instagram_Collections.jpeg" width="650" height="500" />
+        <Image
+          src="/instagram_Collections.jpeg"
+          width="650"
+          height="500"
+          alt="instagram-photo"
+        />
       </div>
       <div className="login-form-container">
         <div className="login-forms">
           <div className="form-image">
-            <Image src="/new-insta-logo.png" width="200" height="100" />
+            <Image
+              src="/new-insta-logo.png"
+              width="200"
+              height="100"
+              alt="new-instagram-logo"
+            />
           </div>
           <form className="form" onSubmit={submitHandler}>
             {error ? (

@@ -222,6 +222,12 @@ const posts = () => {
       <Head>
         <title>{newposts && newposts.user_username}: Post on Instagram</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Posts on Instagram. Login or sign up to create a post today"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta charSet="UTF-8" />
       </Head>
       <Nav handleOpen={handleOpen} display={false} />
       {loading ? (
@@ -276,6 +282,7 @@ const posts = () => {
                 }`}
                 width="600px"
                 height="600px"
+                alt="user avatar"
               />
             </div>
             <div className="post-container-reaction">

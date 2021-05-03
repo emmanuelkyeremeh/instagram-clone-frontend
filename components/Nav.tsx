@@ -50,7 +50,7 @@ const Nav = ({ handleOpen, display }) => {
   const userData = useSelector((state) => state.Login);
   const { userDataInsta } = userData;
   return (
-    <div className="navbar-container">
+    <nav className="navbar-container">
       <div className="navbar-logo">
         <Link href="/">
           <Image src="/instagram-clone.png" width="103" height="29" />
@@ -139,7 +139,7 @@ const Nav = ({ handleOpen, display }) => {
           </Fade>
         )}
       </Popper>
-    </div>
+    </nav>
   );
 };
 

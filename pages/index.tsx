@@ -114,9 +114,15 @@ export default function Home() {
       <Head>
         <title>Instagram</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Welcome to my instagram clone. This build was created with vercel's next.js"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta charSet="UTF-8" />
       </Head>
       <Nav handleOpen={handleOpen} display={true} />
-      <div className="container">
+      <main className="container">
         <div className="post-body">
           {getPostsLoading ? (
             <div className={classes.root}>
@@ -142,10 +148,10 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="post-side">
+        <aside className="post-side">
           <Profiles userid={_id} />
-        </div>
-      </div>
+        </aside>
+      </main>
       <Modal
         open={open}
         onClose={handleClose}

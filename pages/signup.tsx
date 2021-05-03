@@ -60,8 +60,14 @@ const Registeration = () => {
   return (
     <div className="signup-container">
       <Head>
-        <title>Create an account on instagram</title>
+        <title>Sign Up, Instagram</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Create an account on instagram today. This build was created with vercel's next.js"
+        />
+        <meta name="robots" content="index, follow" />
+        <meta charSet="UTF-8" />
       </Head>
       <div className="signup-input">
         <div className="sign-up-image">
@@ -70,6 +76,7 @@ const Registeration = () => {
             className="signup-image"
             width="150"
             height="100"
+            alt="new-instagram-image"
           />
         </div>
         <div className="signup-title">

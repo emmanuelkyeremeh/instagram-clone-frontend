@@ -56,6 +56,7 @@ const Other_users = ({ id, display, follower, followed, username, avatar }) => {
         <Avatar
           src={`data:image/jpeg;base64,${avatar}`}
           style={{ cursor: "pointer" }}
+          alt="user avatar"
         />
         <div className="all-other-user-details">
           <p>{username}</p>
