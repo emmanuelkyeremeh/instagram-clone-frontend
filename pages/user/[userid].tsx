@@ -166,7 +166,7 @@ const UserDetail = () => {
                 className="post-hover-image"
                 width="290"
                 height="300"
-                src={`/${post.image}`}
+                src={`/${post.actualImage}`}
                 onClick={(e) => router.push(`/post/${post._id}`)}
               />
             </div>
