@@ -73,19 +73,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const posts = () => {
-  const User = localStorage.getItem("userDataInsta");
+  const getUserId = useSelector((state) => state.Login);
+  const { userDataInsta } = getUserId;
 
-  if (!User) {
+  if (!userDataInsta) {
     window.location.assign("/login");
   }
+
+  const userid = userDataInsta._id;
   const router = useRouter();
   const [postid] = useState(router.query.id);
 
   const dispatch = useDispatch();
-
-  const getUserId = useSelector((state) => state.Login);
-  const { userDataInsta } = getUserId;
-  const userid = userDataInsta._id;
 
   useEffect(() => {
     dispatch(findSinglePost(postid));

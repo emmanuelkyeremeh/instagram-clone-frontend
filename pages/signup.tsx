@@ -11,11 +11,6 @@ import axios from "axios";
 import uuid from "react-uuid";
 
 const Registeration = () => {
-  const User = localStorage.getItem("userDataInsta");
-
-  if (User) {
-    window.location.assign("/");
-  }
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [username, setusername] = useState("");

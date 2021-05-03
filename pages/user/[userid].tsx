@@ -23,9 +23,14 @@ export async function getServerSideProps(context) {
 }
 
 const UserDetail = () => {
-  const User = localStorage.getItem("userDataInsta");
+  const user = useSelector((state) => state.Login);
+  const { userDataInsta } = user;
 
-  if (!User) {
+  if (!userDataInsta) {
+    window.location.assign("/login");
+  }
+
+  if (!user) {
     window.location.assign("/login");
   }
   const [userid] = useState(router.query.userid);
@@ -63,9 +68,6 @@ const UserDetail = () => {
   const handleOpen = (e) => {
     // just to clear errors
   };
-
-  const userData = useSelector((state) => state.Login);
-  const { userDataInsta } = userData;
   const LoggeduserId = userDataInsta._id;
 
   const UpdatedUserData = useSelector((state) => state.getOneUser);
