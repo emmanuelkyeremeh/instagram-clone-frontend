@@ -38,8 +38,13 @@ export default function Home() {
   if (!userDataInsta) {
     window.location.assign("/login");
   }
+  const dispatch = useDispatch();
 
   const _id = userDataInsta._id;
+
+  useEffect(() => {
+    dispatch(getposts());
+  }, []);
 
   const getmyposts = useSelector((state) => state.getPosts);
   const { loading: getPostsLoading, error: getPostsError, posts } = getmyposts;
@@ -48,11 +53,6 @@ export default function Home() {
   const post = useSelector((state) => state.createPost);
   const { loading, error } = post;
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getposts());
-  }, []);
 
   const rand = () => {
     return Math.round(Math.random() * 20) - 10;
@@ -88,7 +88,7 @@ export default function Home() {
     let imageName = "";
 
     if (image) {
-      const newImage = new File([image], `${uuid()}${image?.name}`, {
+      const newImage = new File([image], `${uuid()}${image.name}`, {
         type: image.type,
       });
       imageName = newImage.name;
