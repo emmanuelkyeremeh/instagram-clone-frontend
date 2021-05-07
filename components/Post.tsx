@@ -64,7 +64,7 @@ const Post = ({ id, img, caption, username, userid }) => {
     });
   AllLikes &&
     AllLikes.forEach((like) => {
-      if (like.userid === userid && like.postid === id) {
+      if (like.postid === id && like.userid === userid) {
         isLiked++;
       }
     });
@@ -111,7 +111,7 @@ const Post = ({ id, img, caption, username, userid }) => {
         </div>
         <div className="post-container-reaction">
           <div className="post-container-reaction-left">
-            {isLiked > 0 ? (
+            {isLiked && isLiked > 0 ? (
               <div className="reaction-icon-div">
                 <FavoriteIcon style={{ color: "red" }} />
                 <p className="reaction-icon-div-p">{likeList}</p>

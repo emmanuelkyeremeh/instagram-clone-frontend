@@ -194,6 +194,7 @@ const posts = () => {
   const currentDate = new Date().toLocaleString();
 
   const commentHandler = async (e) => {
+    e.preventDefault();
     setsubmitLoading(true);
     const userComment = userDataInsta.username;
     await dispatch(createComment(postid, userComment, comment, currentDate));

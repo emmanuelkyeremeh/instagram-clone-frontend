@@ -54,12 +54,14 @@ export default function Home() {
   const { loading, error } = post;
   const classes = useStyles();
 
-  const rand = () => {
-    return Math.round(Math.random() * 20) - 10;
-  };
+  // const rand = () => {
+  //   // return Math.round(Math.random() * 20) - 10;
+  // };
   const getModalStyle = () => {
-    const top = 50 + rand();
-    const left = 50 + rand();
+    // const top = 50 + rand();
+    const top = 42;
+    // const left = 50 + rand();
+    const left = 45;
     return {
       top: `${top}%`,
       left: `${left}%`,
